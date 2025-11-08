@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1758287408118,
+      "tag": "0000_young_rick_jones",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1758451363032,
+      "tag": "0001_chubby_roland_deschain",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1758451588765,
+      "tag": "0002_famous_spirit",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1758452587469,
+      "tag": "0003_nervous_spacker_dave",
+      "breakpoints": true
+    }
+  ]
+}

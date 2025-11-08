@@ -1,0 +1,9 @@
+.venv
+venv
+.env
+env
+cv-env
+_pycache_
+
+potholes
+.potholes

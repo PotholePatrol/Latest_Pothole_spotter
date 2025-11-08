@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "noEmit": true,                  // don't output .d.ts or .js
+    "declaration": false,            // extra safety: no .d.ts
+    "declarationMap": false,         // no .d.ts.map
+    "skipLibCheck": true,            // skip type checking node_modules
+    "allowJs": true,                 // allow plain .js files
+    "jsx": "preserve",
+    "strict": false,                 // turn off strict mode
+    "noImplicitAny": false,          // don't complain about "any"
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"],
+  "exclude": ["node_modules"]
+}

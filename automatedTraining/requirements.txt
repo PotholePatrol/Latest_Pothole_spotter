@@ -1,0 +1,12 @@
+segmentation-models-pytorch
+opencv-python
+torch
+torchvision
+azure-cognitiveservices-vision-customvision
+fastapi
+# "uvicorn[standard]"
+python-multipart
+torchvision 
+torchaudio
+ultralytics
+aiohttp
