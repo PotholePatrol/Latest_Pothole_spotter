@@ -17,7 +17,11 @@ interface Feature {
   icon: any
 }
 
-import aboutVideo from '../assets/MicrosoftTeams-video.mp4'
+let aboutVideo = null
+
+try {
+  // aboutVideo = (await import('../assets/MicrosoftTeams-video.mp4')).default
+} catch {}
 
 // 🔹 State management
 const videoRef = ref<HTMLVideoElement | null>(null)
