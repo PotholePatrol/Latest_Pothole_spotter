@@ -1,1 +1,0 @@
-ALTER TABLE `users` ADD `google_id` varchar(255);

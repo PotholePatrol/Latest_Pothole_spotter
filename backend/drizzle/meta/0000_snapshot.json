@@ -1,53 +1,59 @@
 {
-  "version": "5",
-  "dialect": "mysql",
-  "id": "ee75902d-e2ae-4596-8c43-eeaeba7906c8",
+  "id": "7398a664-4755-4071-80a9-5dfdc9cb88d9",
   "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
   "tables": {
-    "contact_us_feedback": {
+    "public.contact_us_feedback": {
       "name": "contact_us_feedback",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "int",
-          "primaryKey": false,
+          "type": "integer",
+          "primaryKey": true,
           "notNull": true,
-          "autoincrement": true
+          "identity": {
+            "type": "always",
+            "name": "contact_us_feedback_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
         },
         "username": {
           "name": "username",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "email": {
           "name": "email",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "reply": {
           "name": "reply",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "message": {
           "name": "message",
           "type": "varchar(1024)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "is_public": {
           "name": "is_public",
           "type": "boolean",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false,
           "default": true
         },
         "created_at": {
@@ -55,83 +61,81 @@
           "type": "timestamp",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false,
-          "default": "(now())"
+          "default": "now()"
         },
         "likes": {
           "name": "likes",
-          "type": "json",
+          "type": "jsonb",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false,
-          "default": "('[]')"
+          "default": "'[]'::jsonb"
         },
         "dislikes": {
           "name": "dislikes",
-          "type": "json",
+          "type": "jsonb",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false,
-          "default": "('[]')"
+          "default": "'[]'::jsonb"
         }
       },
       "indexes": {},
       "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "contact_us_feedback_id": {
-          "name": "contact_us_feedback_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraint": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "contact_us_feedback_reply": {
+    "public.contact_us_feedback_reply": {
       "name": "contact_us_feedback_reply",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "int",
-          "primaryKey": false,
+          "type": "integer",
+          "primaryKey": true,
           "notNull": true,
-          "autoincrement": true
+          "identity": {
+            "type": "always",
+            "name": "contact_us_feedback_reply_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
         },
         "feedback_id": {
           "name": "feedback_id",
-          "type": "int",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "email": {
           "name": "email",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "reply": {
           "name": "reply",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "message": {
           "name": "message",
           "type": "varchar(1024)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "is_public": {
           "name": "is_public",
           "type": "boolean",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false,
           "default": true
         },
         "created_at": {
@@ -139,24 +143,21 @@
           "type": "timestamp",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false,
-          "default": "(now())"
+          "default": "now()"
         },
         "likes": {
           "name": "likes",
-          "type": "json",
+          "type": "jsonb",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false,
-          "default": "('[]')"
+          "default": "'[]'::jsonb"
         },
         "dislikes": {
           "name": "dislikes",
-          "type": "json",
+          "type": "jsonb",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false,
-          "default": "('[]')"
+          "default": "'[]'::jsonb"
         }
       },
       "indexes": {},
@@ -175,149 +176,125 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "contact_us_feedback_reply_id": {
-          "name": "contact_us_feedback_reply_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraint": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "detections": {
+    "public.detections": {
       "name": "detections",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
           "type": "varchar(36)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "primaryKey": true,
+          "notNull": true
         },
         "user_id": {
           "name": "user_id",
           "type": "varchar(36)",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "label": {
           "name": "label",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "image_url": {
           "name": "image_url",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "confidence": {
           "name": "confidence",
-          "type": "float",
+          "type": "real",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "lat": {
           "name": "lat",
-          "type": "float",
+          "type": "real",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "lng": {
           "name": "lng",
-          "type": "float",
+          "type": "real",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "stretch_start_lat": {
           "name": "stretch_start_lat",
-          "type": "float",
+          "type": "real",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "stretch_start_lng": {
           "name": "stretch_start_lng",
-          "type": "float",
+          "type": "real",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "stretch_end_lat": {
           "name": "stretch_end_lat",
-          "type": "float",
+          "type": "real",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "stretch_end_lng": {
           "name": "stretch_end_lng",
-          "type": "float",
+          "type": "real",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false,
-          "default": "(now())"
+          "default": "now()"
         }
       },
       "indexes": {},
       "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "detections_id": {
-          "name": "detections_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraint": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "location_preferences": {
+    "public.location_preferences": {
       "name": "location_preferences",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
           "type": "varchar(36)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "primaryKey": true,
+          "notNull": true
         },
         "user_id": {
           "name": "user_id",
           "type": "varchar(36)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "preferred_lat": {
           "name": "preferred_lat",
-          "type": "float",
+          "type": "real",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         },
         "preferred_lng": {
           "name": "preferred_lng",
-          "type": "float",
+          "type": "real",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": false
         }
       },
       "indexes": {},
@@ -336,83 +313,83 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "location_preferences_id": {
-          "name": "location_preferences_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraint": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     },
-    "users": {
+    "public.users": {
       "name": "users",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
           "type": "varchar(36)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "google_id": {
+          "name": "google_id",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": false
         },
         "first_name": {
           "name": "first_name",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "last_name": {
           "name": "last_name",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "password": {
           "name": "password",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": false
         },
-        "phone": {
-          "name": "phone",
+        "phone_number": {
+          "name": "phone_number",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": false
         },
         "email": {
           "name": "email",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false,
-          "default": "(now())"
+          "default": "now()"
         },
         "country": {
           "name": "country",
           "type": "varchar(100)",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": false
         },
         "is_admin": {
           "name": "is_admin",
           "type": "boolean",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false,
+          "default": false
+        },
+        "is_google_account": {
+          "name": "is_google_account",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
           "default": false
         },
         "profile_pic": {
@@ -420,39 +397,35 @@
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false,
           "default": "'https://th.bing.com/th/id/OIP.1yoSL-WO0YU5mQKROudvswHaHa?w=180&h=180&c=7&r=0&o=7&pid=1.7&rm=3'"
         }
       },
       "indexes": {},
       "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "users_id": {
-          "name": "users_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "users_phone_unique": {
-          "name": "users_phone_unique",
+        "users_phone_number_unique": {
+          "name": "users_phone_number_unique",
+          "nullsNotDistinct": false,
           "columns": [
-            "phone"
+            "phone_number"
           ]
         }
       },
-      "checkConstraint": {}
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     }
   },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
   "views": {},
   "_meta": {
+    "columns": {},
     "schemas": {},
-    "tables": {},
-    "columns": {}
-  },
-  "internal": {
-    "tables": {},
-    "indexes": {}
+    "tables": {}
   }
 }

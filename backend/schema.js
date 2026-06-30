@@ -1,28 +1,37 @@
 // schema.ts
 // import { like } from 'drizzle-orm';
-import { json } from 'drizzle-orm/gel-core';
-import { boolean, mysqlTable, int, varchar, float, timestamp } from 'drizzle-orm/mysql-core';
+import {
+  pgTable,
+  boolean,
+  integer,
+  varchar,
+  real,
+  timestamp,
+  jsonb,
+} from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
 import knex from 'knex';
-import mysql from 'mysql2/promise'
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 export const Odb = knex({
-  client: "mysql2",
+  client: "pg",
   connection: {
     host: process.env.DB_HOST || "localhost",
-    user: process.env.DB_USER || "root",
-    password: process.env.DB_PASS || "75223031",
-    database: process.env.DB_NAME || "smartroads",
+    port: Number(process.env.DB_PORT) || 5432,
+    user: process.env.DB_USER || "postgres",
+    password: process.env.DB_PASS || "",
+    database: process.env.DB_NAME || "postgres",
+    ssl: {
+      rejectUnauthorized: false,
+    },
   },
   pool: { min: 0, max: 10 },
 });
 
-
 // Users table
-export const users = mysqlTable('users', {
+export const users = pgTable('users', {
   id: varchar('id', { length: 36 }).primaryKey(),
   googleId: varchar("google_id", { length: 255 }),
   first_name: varchar('first_name', { length: 255 }).notNull(),
@@ -34,63 +43,71 @@ export const users = mysqlTable('users', {
   country: varchar('country', { length: 100 }),
   isAdmin: boolean('is_admin').default(false),
   isGoogleAccount: boolean('is_google_account').default(false),
-  profilePic: varchar('profile_pic', { length: 255 }).default('https://th.bing.com/th/id/OIP.1yoSL-WO0YU5mQKROudvswHaHa?w=180&h=180&c=7&r=0&o=7&pid=1.7&rm=3'),
+  profilePic: varchar('profile_pic', { length: 255 }).default(
+    'https://th.bing.com/th/id/OIP.1yoSL-WO0YU5mQKROudvswHaHa?w=180&h=180&c=7&r=0&o=7&pid=1.7&rm=3'
+  ),
 });
 
 // User Location Preferences table
-export const locationPreferences = mysqlTable('location_preferences', {
+export const locationPreferences = pgTable('location_preferences', {
   id: varchar('id', { length: 36 }).primaryKey(),
-  // Relationship to users table
-  userId: varchar('user_id', { length: 36 }).notNull().references(() => users.id, {
-    onDelete: 'cascade',
-  }), preferredLat: float('preferred_lat'),
-  preferredLng: float('preferred_lng'),
+
+  userId: varchar('user_id', { length: 36 })
+    .notNull()
+    .references(() => users.id, {
+      onDelete: 'cascade',
+    }),
+
+  preferredLat: real('preferred_lat'),
+  preferredLng: real('preferred_lng'),
 });
 
 // Detections table
-export const detections = mysqlTable('detections', {
+export const detections = pgTable('detections', {
   id: varchar('id', { length: 36 }).primaryKey(),
   user_id: varchar('user_id', { length: 36 }),
   label: varchar('label', { length: 255 }),
   imageUrl: varchar('image_url', { length: 255 }),
-  confidence: float('confidence'),
-  lat: float('lat'),
-  lng: float('lng'),
-  stretchStartLat: float('stretch_start_lat'),
-  stretchStartLng: float('stretch_start_lng'),
-  stretchEndLat: float('stretch_end_lat'),
-  stretchEndLng: float('stretch_end_lng'),
+  confidence: real('confidence'),
+  lat: real('lat'),
+  lng: real('lng'),
+  stretchStartLat: real('stretch_start_lat'),
+  stretchStartLng: real('stretch_start_lng'),
+  stretchEndLat: real('stretch_end_lat'),
+  stretchEndLng: real('stretch_end_lng'),
   createdAt: timestamp('created_at').defaultNow(),
 });
-
 
 // contact_us_feedback table
-export const contact_us_feedback = mysqlTable('contact_us_feedback', {
-  id: int('id').primaryKey().autoincrement(),
+export const contact_us_feedback = pgTable('contact_us_feedback', {
+  id: integer('id').generatedAlwaysAsIdentity().primaryKey(),
   username: varchar('username', { length: 255 }).notNull(),
   email: varchar('email', { length: 255 }).notNull(),
-  reply: varchar('reply', { length: 255 }).notNull(), // or use text()
-  message: varchar('message', { length: 1024 }).notNull(), // or text()
-  isPublic: boolean('is_public').default(true),
-  createdAt: timestamp('created_at').defaultNow(),
-  likes: json('likes').default([]),
-  dislikes: json('dislikes').default([]),
-});
-
-export const contact_us_feedback_reply = mysqlTable('contact_us_feedback_reply', {
-  id: int('id').primaryKey().autoincrement(),
-  feedbackId: int('feedback_id')
-    .notNull()
-    .references(() => contact_us_feedback.id, { onDelete: 'cascade' }),
-  admin_email: varchar('email', { length: 255 }).notNull(),
-  reply: varchar('reply', { length: 255 }).notNull(), // or text()
+  reply: varchar('reply', { length: 255 }).notNull(),
   message: varchar('message', { length: 1024 }).notNull(),
   isPublic: boolean('is_public').default(true),
   createdAt: timestamp('created_at').defaultNow(),
-  likes: json('likes').default([]),
-  dislikes: json('dislikes').default([]),
+  likes: jsonb('likes').default([]),
+  dislikes: jsonb('dislikes').default([]),
 });
 
+export const contact_us_feedback_reply = pgTable('contact_us_feedback_reply', {
+  id: integer('id').generatedAlwaysAsIdentity().primaryKey(),
+
+  feedbackId: integer('feedback_id')
+    .notNull()
+    .references(() => contact_us_feedback.id, {
+      onDelete: 'cascade',
+    }),
+
+  admin_email: varchar('email', { length: 255 }).notNull(),
+  reply: varchar('reply', { length: 255 }).notNull(),
+  message: varchar('message', { length: 1024 }).notNull(),
+  isPublic: boolean('is_public').default(true),
+  createdAt: timestamp('created_at').defaultNow(),
+  likes: jsonb('likes').default([]),
+  dislikes: jsonb('dislikes').default([]),
+});
 
 // INSTALL Required packages
 // npm install drizzle-orm mysql2

@@ -12,6 +12,7 @@ const path = require('path');
 const fs = require('fs');
 const axios = require('axios');
 const mysql = require('mysql2/promise');
+const { Pool } = require("pg");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
@@ -187,26 +188,29 @@ app.use('/api', authRoutes);
 app.use("/auto", autoModelRouter);
 
 // ---------------- DATABASE ----------------
-let db;
+
+const db = new Pool({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+});
+
 async function initDb() {
   try {
-    db = await mysql.createPool({
-      host: process.env.DB_HOST || 'localhost',
-      user: process.env.DB_USER || 'root',
-      password: process.env.DB_PASS || '',
-      database: process.env.DB_NAME || 'smartroads',
-      waitForConnections: true,
-      connectionLimit: 10,
-    });
-
-    await db.query('SELECT 1'); // Simple health check
-    console.log('✅ MySQL connection successful');
+    await db.query("SELECT 1");
+    console.log("✅ PostgreSQL connection successful");
   } catch (err) {
-    console.error('❌ MySQL error:', err.message);
-    process.exitCode = 1;
+    console.error("❌ PostgreSQL error:", err);
   }
 }
+
 initDb();
+
 
 // ---------------- FILE UPLOAD (Multer) ----------------
 // storage
